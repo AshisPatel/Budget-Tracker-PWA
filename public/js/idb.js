@@ -16,14 +16,14 @@ request.onupgradeneeded = function(event) {
     db.createObjectStore('new_transaction', { autoIncrement: true });
 };
 
-// upon a succesfull connection to the database, re-save our connectionand upload data to the server
+// upon a succesfull connection to the database, re-save our connection and upload data to the server
 request.onsuccess = function(event) {
     // Saving the global variable to now reference the 'budget_tracker' db
     db = event.target.result; 
 
     // check if the app is online, and if it is upload data
     if (navigator.onLine) {
-        // uploadTransactions();
+        uploadTransaction();
     }
 };
 
@@ -45,3 +45,49 @@ function saveRecord(record) {
     transactionObjectStore.add(record); 
 
 }
+
+function uploadTransaction() {
+    // open a transaction connection to the db (not constantly connected, need to to do this everytime we interact with the db);
+    const transaction = db.transaction(['new_transaction'], 'readwrite');
+
+    // access the object store
+    const transactionObjectStore = transaction.objectStore('new_transaction');
+
+    // get all the records that are currently in the store
+    // getAll() is an async method, thus we must use eventhandlers to see when it completes and if they are succesfull
+    const getAllTransactions = transactionObjectStore.getAll();
+
+    // upon getAll() succesfully executing run the following code...
+    getAllTransactions.onsuccess = function() {
+        // If the getAll() object contains any data, send a post request to our database to add new data
+        if (getAllTransactions.result.length > 0) {
+            fetch("/api/transaction", {
+                method: "POST",
+                body: JSON.stringify(getAllTransactions.result),
+                headers: {
+                  Accept: "application/json, text/plain, */*",
+                  "Content-Type": "application/json"
+                }
+              })
+              .then(response => response.json())
+              .then(serverResponse => {
+                  if(serverResponse.message) {
+                    throw new Error(serverResponse); 
+                  }
+                //   if server succesfully responds, open another transaction to clear out all of data from our object store now that it has been added to the server's database
+                const transaction = db.transaction(['new_transaction'], 'readwrite');
+                const transactionObjectStore = transaction.objectStore('new_transaction');
+                transactionObjectStore.clear();
+
+                alert('You are back online, all your offline data has been submitted to the server!');
+              })
+              .catch(err => console.log(err) );
+        }
+    }
+}
+
+// Listen for when the website goes back online and add offline data
+window.addEventListener('online', uploadTransaction);
+    
+
+    
