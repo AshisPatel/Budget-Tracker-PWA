@@ -45,4 +45,18 @@
   <script src="js/index.js"></script>
   <script src="js/idb.js"></script>
 </body>
+
+<!-- install service worker -->
+<script>
+  // anonymous function is made and executed immediately due to the '()' at the end of the function definition.
+  (function() {
+    // checks to see if a serviceWorker can be created in on the browser. 
+    // This can be seen by checking if the serviceWorker key exists in the navigator object. 
+    if("serviceWorker" in navigator){
+      navigator.serviceWorker.register("./service-worker.js")
+      .then(() => console.log("Service Worker is registered succesfully!"))
+      .catch(error => console.log(`Service worker registration failed: ${error}`));
+    }
+  })();
+</script>
 </html>
