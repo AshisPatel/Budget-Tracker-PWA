@@ -15,5 +15,9 @@
   </p>Email: ashis.n.patel@gmail.com<br />Please send me an email with any comments, questons, or concerns!
   <h2>End Note - A Thank You To The Reader</h2>
 
-  Hello! I hope that you are having a wonderful day / afternoon / evenning / weird late night hours, and if you are not, hopefully the fun fact and gif at the end of this section can help! Prior to 
+  Hello! I hope that you are having a wonderful day / afternoon / evening / weird late-night hours, and if you are not, hopefully the fun fact and gif at the end of this section can help! Prior to that, please allow me to rant. This week was about setting up a PWA, and the technology required to do so. Things all seem to be quite 'boiler-plate' which is good and all when things work, but when things don't work... it's a much more *interesting* problem. However, the fact that the browser itself has so much utility is incredibly neat! And it also makes a lot more sense why certain websites work when there's connection disruptions and others do not. Any who, please enjoy the fun fact and gif below, take care friends! (^^)b
+
+  **Fun Fact:** The green code in The Matrix was actually created from symbols in the code designer’s wife’s sushi cookbook. So if you really want to hack into the main frame, just go to the cooking isle of Barnes & Noble. 
+
+  ![Dagger catches random person by suprise](https://github.com/AshisPatel/Budget-Tracker-PWA/blob/main/repo-assets/gifs/bad_luck.gif)
   
