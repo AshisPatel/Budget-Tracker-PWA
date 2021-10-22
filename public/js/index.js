@@ -8,7 +8,14 @@ fetch("/api/transaction")
   .then(data => {
     // save db data on global variable
     transactions = data;
-
+    saveOldTransactions(transactions);
+    populateTotal();
+    populateTable();
+    populateChart();
+  })
+  .catch(err => {
+    transactions = getOldTransactions();
+    console.log(transactions);
     populateTotal();
     populateTable();
     populateChart();
@@ -106,6 +113,10 @@ function sendTransaction(isAdding) {
 
   // add to beginning of current array of data
   transactions.unshift(transaction);
+
+  // add to prev_transactions data store
+  saveOldTransactions(transactions);
+
 
   // re-run logic to populate ui with new record
   populateChart();
