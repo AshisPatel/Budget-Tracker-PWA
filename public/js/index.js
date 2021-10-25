@@ -1,25 +1,19 @@
 let transactions = [];
+let tempTransactions = [];
 let myChart;
 
 fetch("/api/transaction")
   .then(response => {
     return response.json();
   })
-  .then(data => {
+  .then( data => {
     // save db data on global variable
     transactions = data;
-    saveOldTransactions(transactions);
     populateTotal();
     populateTable();
     populateChart();
   })
-  .catch(err => {
-    transactions = getOldTransactions();
-    console.log(transactions);
-    populateTotal();
-    populateTable();
-    populateChart();
-  });
+
 
 function populateTotal() {
   // reduce transaction amounts to a single total value
@@ -113,10 +107,6 @@ function sendTransaction(isAdding) {
 
   // add to beginning of current array of data
   transactions.unshift(transaction);
-
-  // add to prev_transactions data store
-  saveOldTransactions(transactions);
-
 
   // re-run logic to populate ui with new record
   populateChart();

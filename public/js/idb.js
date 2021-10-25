@@ -14,7 +14,6 @@ request.onupgradeneeded = function(event) {
     // creating a 'store' where the data is held in IndexedDB (like an SQL table or MongoDB collection)
     // this 'store' will be named 'new_transaction' and store our entries with autoincrementing ID's (similair to MySQL)
     db.createObjectStore('new_transaction', { autoIncrement: true });
-    db.createObjectStore('prev_transactions', { autoIncrement: true });
 };
 
 // upon a succesfull connection to the database, re-save our connection and upload data to the server
@@ -81,41 +80,19 @@ function uploadTransaction() {
                 transactionObjectStore.clear();
 
                 alert('You are back online, all your offline data has been submitted to the server!');
+                window.location.reload();
               })
               .catch(err => console.log(err) );
         }
     }
 }
 
-const saveOldTransactions = (data) => {
-    // Remove any old data
-    const transaction = db.transaction(['prev_transactions'], 'readwrite');
-    const pTransactionsObjectStore = transaction.objectStore('prev_transactions');
-    const clearData = pTransactionsObjectStore.clear();
-    // all latest transactions list
-    clearData.onsuccess = function() {
-        const transaction = db.transaction(['prev_transactions'], 'readwrite');
-        const pTransactionsObjectStore = transaction.objectStore('prev_transactions');
-        pTransactionsObjectStore.add(data);
-    };
-    
-}
-
-const getOldTransactions = async () => {
-    let dataToSend; 
-    const transaction = db.transaction(['prev_transactions'], 'readwrite');
-    const pTransactionsObjectStore = transaction.objectStore('prev_transactions');
-
-    const getData = pTransactionsObjectStore.getAll();
-
-    getData.onsuccess = () => {
-       return dataToSend = getData.result; 
-    }
-    
-}
 
 // Listen for when the website goes back online and add offline data
 window.addEventListener('online', uploadTransaction);
+window.addEventListener('offline', () => {
+alert('You are offline, if you refresh your page, your cumulative data will not be displayed until you are online again.');
+});
     
 
     
