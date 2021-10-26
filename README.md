@@ -1,6 +1,6 @@
 <h1>Budget Tracker - PWA</h1>
 
- ![Budget Tracker UI](https://github.com/AshisPatel/Budget-Tracker-PWA/blob/main/repo-assets/images/screenshot.jpg)
+ ![Budget Tracker UI](https://github.com/AshisPatel/Budget-Tracker-PWA/blob/main/repo-assets/images/screenshot.JPG)
   
   
   <h2>Description</h2>
